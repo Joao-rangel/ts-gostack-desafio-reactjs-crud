@@ -59,7 +59,7 @@ const Dashboard: React.FC = () => {
   ): Promise<void> {
     const { name, image, description, price } = food;
 
-    const { data } = await api.patch(`/foods/${editingFood.id}`, {
+    const { data } = await api.put(`/foods/${editingFood.id}`, {
       name,
       image,
       description,
