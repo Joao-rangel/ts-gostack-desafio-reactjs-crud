@@ -57,7 +57,23 @@ const Dashboard: React.FC = () => {
   async function handleUpdateFood(
     food: Omit<IFoodPlate, 'id' | 'available'>,
   ): Promise<void> {
-    // TODO UPDATE A FOOD PLATE ON THE API
+    const { name, image, description, price } = food;
+
+    const { data } = await api.patch(`/foods/${editingFood.id}`, {
+      name,
+      image,
+      description,
+      price,
+    });
+
+    const index = foods.findIndex(({ id }) => id === editingFood.id);
+
+    const updatedFoods = foods.map((unchanged, findIndex) => {
+      if (findIndex !== index) return unchanged;
+      return data;
+    });
+
+    setFoods(updatedFoods);
   }
 
   async function handleDeleteFood(id: number): Promise<void> {
@@ -77,7 +93,9 @@ const Dashboard: React.FC = () => {
   }
 
   function handleEditFood(food: IFoodPlate): void {
-    // TODO SET THE CURRENT EDITING FOOD ID IN THE STATE
+    setEditingFood(food);
+
+    toggleEditModal();
   }
 
   return (
